@@ -8,7 +8,7 @@ LOCAL_PATH := $(BUILD_SYSTEM)
 ifneq "" "$(filter eng.%,$(BUILD_NUMBER))"
   # BUILD_NUMBER has a timestamp in it, which means that
   # it will change every time.  Pick a stable value.
-  FILE_NAME_TAG := eng.$(USER)
+  FILE_NAME_TAG := OSS-$(CUSTOM_BUILD_USER)-$(shell $(DATE) +%Y%m%d)
 else
   FILE_NAME_TAG := $(BUILD_NUMBER)
 endif
@@ -136,7 +136,7 @@ ifeq (,$(strip $(BUILD_FINGERPRINT)))
   ifneq ($(filter eng.%,$(BUILD_NUMBER)),)
     # Trim down BUILD_FINGERPRINT: the default BUILD_NUMBER makes it easily exceed
     # the Android system property length limit (PROPERTY_VALUE_MAX=92).
-    BF_BUILD_NUMBER := $(shell echo $${USER:0:6})$(shell $(DATE) +%m%d%H%M)
+    BF_BUILD_NUMBER := $(CUSTOM_BUILD_USER)$(shell $(DATE) +%m%d%H%M)
   else
     BF_BUILD_NUMBER := $(BUILD_NUMBER)
   endif
